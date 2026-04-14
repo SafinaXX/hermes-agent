@@ -1,2 +1,5 @@
 # Auto-generated files — collapse diffs and exclude from language stats
 web/package-lock.json linguist-generated=true
+
+# Shell scripts must always use LF (Linux containers can't parse CRLF shebangs)
+*.sh text eol=lf

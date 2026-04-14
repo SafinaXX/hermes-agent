@@ -61,4 +61,11 @@ if [ -d "$INSTALL_DIR/skills" ]; then
     python3 "$INSTALL_DIR/tools/skills_sync.py"
 fi
 
+# Optional pre-start hook for deployment-specific config (e.g. Zeabur → Daytona).
+# Set HERMES_INIT_SCRIPT to an executable path inside the image; it runs after
+# config seeding and before the main hermes process starts.
+if [ -n "${HERMES_INIT_SCRIPT:-}" ] && [ -x "$HERMES_INIT_SCRIPT" ]; then
+    "$HERMES_INIT_SCRIPT"
+fi
+
 exec hermes "$@"

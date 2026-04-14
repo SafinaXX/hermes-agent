@@ -39,8 +39,10 @@ RUN uv venv && \
     uv pip install --no-cache-dir -e ".[all]"
 
 USER root
-RUN chmod +x /opt/hermes/docker/entrypoint.sh
+RUN sed -i 's/\r$//' /opt/hermes/docker/entrypoint.sh && \
+    chmod +x /opt/hermes/docker/entrypoint.sh
 
 ENV HERMES_HOME=/opt/data
 VOLUME [ "/opt/data" ]
 ENTRYPOINT [ "/opt/hermes/docker/entrypoint.sh" ]
+CMD [ "gateway", "start", "-v" ]
