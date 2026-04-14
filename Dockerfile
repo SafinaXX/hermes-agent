@@ -45,4 +45,4 @@ RUN sed -i 's/\r$//' /opt/hermes/docker/entrypoint.sh && \
 ENV HERMES_HOME=/opt/data
 VOLUME [ "/opt/data" ]
 ENTRYPOINT [ "/opt/hermes/docker/entrypoint.sh" ]
-CMD [ "gateway", "start", "-v" ]
+CMD [ "gateway", "start" ]
