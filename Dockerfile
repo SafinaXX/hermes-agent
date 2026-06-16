@@ -148,7 +148,7 @@ RUN npm install --prefer-offline --no-audit && \
 # installs the deps reachable through the composite `[all]` extra
 # (handpicked set intended for the production image — excludes `[dev]`),
 # plus gateway messaging adapters that should work in the published image
-# without a first-boot lazy install.  We do NOT use `--all-extras`:
+# without a first-boot lazy install.  We do NOT use `--all-extras`
 # that would pull in `[rl]` (atroposlib + tinker + torch + wandb from
 # git), `[yc-bench]` (another git dep), and `[termux-all]` (Android
 # redundancy), none of which belong in the published container.
@@ -215,6 +215,12 @@ RUN chmod -R a+rX /opt/hermes && \
 # Deps are already installed in the cached layer above; `--no-deps` makes
 # this a fast (~1s) egg-link creation with no resolution or downloads.
 RUN uv pip install --no-cache-dir --no-deps -e "."
+
+# ---------- Ensure pip is available in venv ----------
+# The setup.py script for Google Workspace integration uses pip to install
+# dependencies at runtime. uv venv creates a minimal venv without pip by
+# default, so we explicitly install it using ensurepip.
+RUN .venv/bin/python -m ensurepip --upgrade
 
 # ---------- Bake build-time git revision ----------
 # .dockerignore excludes .git, so `git rev-parse HEAD` from inside the
